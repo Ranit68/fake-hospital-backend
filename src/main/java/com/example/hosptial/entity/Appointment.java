@@ -71,6 +71,7 @@ public class Appointment {
     public LocalDate getDate() {
         return date;
     }
+    public void setDate(LocalDate date){this.date = date;}
 
     public int getQueueNumber() {
         return queueNumber;

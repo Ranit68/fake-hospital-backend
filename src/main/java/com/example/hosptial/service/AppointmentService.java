@@ -6,9 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.hosptial.dto.AppointmentRequest;
 import com.example.hosptial.entity.Appointment;
 import com.example.hosptial.entity.Doctor;
+import com.example.hosptial.entity.Patient;
 import com.example.hosptial.repository.AppointmentRepository;
+import com.example.hosptial.repository.DoctorRepository;
+import com.example.hosptial.repository.PatientRepository;
 
 @Service
 public class AppointmentService {
@@ -16,16 +20,35 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
+
     public List<Appointment> getAllAppointment() {
         return appointmentRepository.findAll();
     }
 
-    public Appointment bookAppointment(Appointment appointment) {
-        LocalDate appointmentDate = appointment.getDate();
-        Doctor doctor = appointment.getDoctor();
+    public Appointment bookAppointment(AppointmentRequest request) {
+        // Fetch doctor and patient by IDs
+        Doctor doctor = doctorRepository.findById(request.getDoctorId())
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+        Patient patient = patientRepository.findById(request.getPatientId())
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+
+        LocalDate appointmentDate = LocalDate.parse(request.getDate());
 
         int count = appointmentRepository.countByDoctorAndDate(doctor, appointmentDate);
+
+        // Create new appointment
+        Appointment appointment = new Appointment();
+        appointment.setDoctor(doctor);
+        appointment.setPatient(patient);
+        appointment.setTime(request.getTime());
+        appointment.setDate(appointmentDate);
         appointment.setQueueNumber(count + 1);
+        appointment.setBookingDate(LocalDate.now());
 
         return appointmentRepository.save(appointment);
     }
@@ -40,5 +63,4 @@ public class AppointmentService {
         List<String> bookedSlots = appointments.stream().map(Appointment::getTime).toList();
         return allSlots.stream().filter(slot -> !bookedSlots.contains(slot)).toList();
     }
-
 }
