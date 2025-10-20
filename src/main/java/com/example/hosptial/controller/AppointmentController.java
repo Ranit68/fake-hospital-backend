@@ -42,9 +42,6 @@ public class AppointmentController {
     public List<Appointment> getAllAppointment() {
         return service.getAllAppointment();
     }
- HEAD
- 
- ccae817 (Update appointment controller and service)
     @PostMapping
     public Appointment bookAppointment(@RequestBody AppointmentRequest request) {
         return service.bookAppointment(request);
