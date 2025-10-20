@@ -9,14 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.hosptial.dto.AppointmentRequest;
 import com.example.hosptial.entity.Appointment;
@@ -38,20 +31,25 @@ public class AppointmentController {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
+    // Get all appointments
     @GetMapping
     public List<Appointment> getAllAppointment() {
         return service.getAllAppointment();
     }
+
+    // Book an appointment
     @PostMapping
     public Appointment bookAppointment(@RequestBody AppointmentRequest request) {
         return service.bookAppointment(request);
     }
 
+    // Cancel appointment by ID
     @DeleteMapping("/{id}")
     public void cancelAppointment(@PathVariable Long id) {
         service.cancelAppointment(id);
     }
 
+    // Get available slots for a doctor on a date
     @GetMapping("/slots/{doctorId}/{date}")
     public List<String> getAvailableSlots(
             @PathVariable Long doctorId,
@@ -59,6 +57,7 @@ public class AppointmentController {
         return service.getAvailableSlots(doctorId, date);
     }
 
+    // Generate PDF for an appointment
     @GetMapping("/pdf/{id}")
     public ResponseEntity<byte[]> generatePdf(@PathVariable Long id) {
         Appointment appointment = appointmentRepository.findById(id)
