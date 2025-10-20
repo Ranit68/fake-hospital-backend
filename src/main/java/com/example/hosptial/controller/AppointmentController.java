@@ -11,10 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.hosptial.dto.AppointmentRequest;
 import com.example.hosptial.entity.Appointment;
+import com.example.hosptial.repository.AppointmentRepository;
 import com.example.hosptial.service.AppointmentService;
 import com.example.hosptial.service.PdfService;
-import com.example.hosptial.repository.AppointmentRepository;
 
 @RestController
 @RequestMapping("/api/appointment")
@@ -34,11 +35,9 @@ public class AppointmentController {
     public List<Appointment> getAllAppointment() {
         return service.getAllAppointment();
     }
-
     @PostMapping
-    public Appointment bookAppointment(@RequestBody Appointment appointment) {
-        appointment.setBookingDate(LocalDate.now());
-        return service.bookAppointment(appointment);
+    public Appointment bookAppointment(@RequestBody AppointmentRequest request) {
+        return service.bookAppointment(request);
     }
 
     @DeleteMapping("/{id}")
