@@ -1,31 +1,15 @@
 version: '3.8'
 
 services:
-  hospital-mysql:
-    image: mysql:8.0
-    container_name: hospital-mysql
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: hospitaldb
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   hospital-backend:
     image: hosptial-hospital-backend:latest
     container_name: hospital-backend
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://hospital-mysql:3306/hospitaldb
+      # Railway MySQL connection
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql.railway.internal:3306/railway?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rootpassword
+      SPRING_DATASOURCE_PASSWORD: YCrZjRPdipMRRfDyLoWNUCTxgJjgfUJU
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: true
-    depends_on:
-      hospital-mysql:
-        condition: service_healthy
