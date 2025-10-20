@@ -12,7 +12,7 @@ import com.example.hosptial.entity.Department;
 import com.example.hosptial.service.DepartmentService;
 @RestController
 @RequestMapping("/api/departments")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://fake-hospital-frontend.onrender.com")
 public class DepartmentController {
     @Autowired
     private DepartmentService service;

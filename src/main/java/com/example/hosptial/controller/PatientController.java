@@ -15,7 +15,7 @@ import com.example.hosptial.service.PatientService;
 
 @RestController
 @RequestMapping("/api/patients")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://fake-hospital-frontend.onrender.com")
 public class PatientController {
 
     @Autowired

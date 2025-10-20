@@ -18,7 +18,7 @@ import com.example.hosptial.repository.AppointmentRepository;
 
 @RestController
 @RequestMapping("/api/appointment")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://fake-hospital-frontend.onrender.com")
 public class AppointmentController {
 
     @Autowired
