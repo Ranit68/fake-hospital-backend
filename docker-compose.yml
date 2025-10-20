@@ -7,9 +7,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      # Railway MySQL connection
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql.railway.internal:3306/railway?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      # Railway MySQL public connection (works from local machine and Docker)
+      SPRING_DATASOURCE_URL: jdbc:mysql://ballast.proxy.rlwy.net:23289/railway?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: YCrZjRPdipMRRfDyLoWNUCTxgJjgfUJU
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
